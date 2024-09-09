@@ -29,6 +29,13 @@ def get_message(message_id: int) -> Message:
         raise HTTPException(status_code=404, detail="Message not found")
 
 
+@app.post("/message")
+async def create_message(message: Message) -> str:
+    message.id = len(messages_db)
+    messages_db.append(message)
+    return "Message created!"
+
+
 @app.put("/message/{message_id}")
 async def update_message(message_id: int, message: str = Body()) -> str:
     try:
